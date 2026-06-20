@@ -170,6 +170,110 @@ body {
   .nav-links.active {
     display: flex;
   }
+
+  /* Hero - Mobile */
+  .hero {
+    padding: var(--spacing-lg);
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + var(--spacing-xl));
+    padding-bottom: var(--spacing-xl);
+  }
+
+  .hero-content {
+    text-align: center !important;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 10vw, 3rem) !important;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem !important;
+  }
+
+  .typing-text {
+    font-size: 1.25rem !important;
+  }
+
+  .hero-description {
+    font-size: 1.1rem !important;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+  }
+
+  .hero img {
+    max-width: 200px !important;
+  }
+
+  /* Page Header - Mobile */
+  .page-header {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  /* Sections - Mobile */
+  .section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  /* Cards */
+  .card {
+    padding: var(--spacing-lg);
+  }
+
+  /* Forms */
+  .form-group input,
+  .form-group textarea {
+    font-size: 16px;
+  }
+
+  /* Footer */
+  .footer-links {
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  /* Projects grid */
+  .project-image {
+    height: 150px;
+    font-size: 2rem;
+  }
+
+  /* Contact */
+  .contact-item {
+    flex-wrap: wrap;
+  }
+
+  /* Login box */
+  .login-box {
+    padding: var(--spacing-lg);
+    margin: var(--spacing-md);
+  }
+
+  .login-box h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .hero {
+    padding: var(--spacing-lg);
+  }
+
+  .hero img {
+    max-width: 250px !important;
+  }
 }
 
 /* ============================================
