@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | Personal Website</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Munshid</a>
+    <div class="nav-toggle" onclick="this.classList.toggle('active'); document.querySelector('.nav-links').classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" class="btn btn-primary" style="padding: 0.5rem 1.25rem; border-radius: 8px;">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 4rem; width: 100%; flex-wrap: wrap;">
+        <div class="hero-content" style="text-align: left;">
+          <p class="hero-subtitle">Welcome</p>
+          <h1 class="hero-title">I'm Munshid</h1>
+          <div class="typing-container">
+            <span class="typing-text" id="typingText"></span>
+          </div>
+          <p class="hero-description">
+            A passionate developer creating beautiful digital experiences.
+            I build websites and applications that make a difference.
+          </p>
+          <div class="hero-buttons">
+            <a href="projects.html" class="btn btn-primary">View My Work</a>
+            <a href="contact.html" class="btn btn-secondary">Get In Touch</a>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center;">
+          <img src="images/sticker.png" alt="Munshid" style="max-width: 300px; width: 100%; height: auto;">
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const skills = [
+      "Web Developer",
+      "UI/UX Designer", 
+      "Frontend Engineer",
+      "Full Stack Developer",
+      "React Specialist",
+      "Problem Solver"
+    ];
+    let skillIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingElement = document.getElementById('typingText');
+
+    function type() {
+      const currentSkill = skills[skillIndex];
+      
+      if (isDeleting) {
+        typingElement.textContent = currentSkill.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typingElement.textContent = currentSkill.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let typeSpeed = isDeleting ? 50 : 100;
+
+      if (!isDeleting && charIndex === currentSkill.length) {
+        typeSpeed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        skillIndex = (skillIndex + 1) % skills.length;
+        typeSpeed = 500;
+      }
+
+      setTimeout(type, typeSpeed);
+    }
+    type();
+  </script>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-text">&copy; 2026 Munshid. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://github.com" target="_blank">GitHub</a>
+      <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+      <a href="https://twitter.com" target="_blank">Twitter</a>
+    </div>
+  </footer>
+</body>
+</html>

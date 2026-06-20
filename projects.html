@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Personal Website</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Munshid</a>
+    <div class="nav-toggle" onclick="this.classList.toggle('active'); document.querySelector('.nav-links').classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="container">
+        <h1 class="page-title">My Projects</h1>
+        <p class="page-description">A collection of my recent work</p>
+      </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section class="section">
+      <div class="container">
+        <div class="grid grid-2">
+          <!-- Project 1 -->
+          <article class="card project-card">
+            <div class="project-image">🚀</div>
+            <h3 class="card-title">Project One</h3>
+            <p class="card-description">
+              A modern web application built with React and Node.js.
+              Features include user authentication, real-time updates, and a responsive design.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">React</span>
+              <span class="project-tag">Node.js</span>
+              <span class="project-tag">MongoDB</span>
+            </div>
+            <a href="#" class="card-link">View Project →</a>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="card project-card">
+            <div class="project-image">📱</div>
+            <h3 class="card-title">Mobile App</h3>
+            <p class="card-description">
+              A cross-platform mobile application for task management.
+              Built with React Native, featuring offline support and cloud sync.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">React Native</span>
+              <span class="project-tag">Firebase</span>
+              <span class="project-tag">Redux</span>
+            </div>
+            <a href="#" class="card-link">View Project →</a>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="card project-card">
+            <div class="project-image">🎨</div>
+            <h3 class="card-title">Design System</h3>
+            <p class="card-description">
+              A comprehensive design system with reusable components,
+              design tokens, and extensive documentation for consistent UI development.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">CSS</span>
+              <span class="project-tag">Storybook</span>
+              <span class="project-tag">Figma</span>
+            </div>
+            <a href="#" class="card-link">View Project →</a>
+          </article>
+
+          <!-- Project 4 -->
+          <article class="card project-card">
+            <div class="project-image">⚡</div>
+            <h3 class="card-title">API Dashboard</h3>
+            <p class="card-description">
+              A real-time analytics dashboard for monitoring API performance.
+              Features live data visualization and customizable alerts.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Vue.js</span>
+              <span class="project-tag">D3.js</span>
+              <span class="project-tag">Python</span>
+            </div>
+            <a href="#" class="card-link">View Project →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-text">&copy; 2026 Munshid. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://github.com" target="_blank">GitHub</a>
+      <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+      <a href="https://twitter.com" target="_blank">Twitter</a>
+    </div>
+  </footer>
+</body>
+</html>
