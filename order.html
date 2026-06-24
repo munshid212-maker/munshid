@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Place Order | Munshid</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    .nav {
+      background: rgba(26, 26, 46, 0.95);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #667eea;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .nav-toggle span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    /* Order Container */
+    .order-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .order-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .order-header h1 {
+      font-size: 2.5rem;
+      color: #1a1a2e;
+      margin-bottom: 0.5rem;
+    }
+
+    .order-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    /* Order Card */
+    .order-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .form-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-section-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #667eea;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .form-section-title span {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.875rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      color: #1a1a2e;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .form-group label span {
+      color: #ff6b6b;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      background: #fafafa;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: #aaa;
+    }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Package Selection */
+    .package-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .package-option {
+      border: 2px solid #e0e0e0;
+      border-radius: 16px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .package-option:hover {
+      border-color: #667eea;
+      background: #f8f5ff;
+    }
+
+    .package-option.selected {
+      border-color: #667eea;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+
+    .package-option input {
+      display: none;
+    }
+
+    .package-name {
+      font-weight: 600;
+      color: #1a1a2e;
+      font-size: 1.125rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .package-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .package-delivery {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 0.25rem;
+    }
+
+    /* Instagram Input */
+    .instagram-input-wrapper {
+      display: flex;
+      align-items: center;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fafafa;
+      transition: all 0.3s ease;
+    }
+
+    .instagram-input-wrapper:focus-within {
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    .instagram-prefix {
+      padding: 0.875rem 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .instagram-input-wrapper input {
+      flex: 1;
+      border: none;
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .instagram-input-wrapper input:focus {
+      outline: none;
+    }
+
+    /* Submit Button */
+    .submit-section {
+      margin-top: 2rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 1.25rem 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.125rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(-1px);
+    }
+
+    /* Security Note */
+    .security-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      color: #888;
+      font-size: 0.875rem;
+    }
+
+    .security-note span {
+      font-size: 1.25rem;
+    }
+
+    /* Success Message */
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin: 0 auto 1.5rem;
+      animation: successPulse 0.5s ease;
+    }
+
+    @keyframes successPulse {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .success-message h2 {
+      color: #1a1a2e;
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .success-message p {
+      color: #666;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Note Box */
+    .note-box {
+      background: #fff9e6;
+      border: 1px solid #ffe066;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .note-box span {
+      font-size: 1.25rem;
+    }
+
+    .note-box p {
+      color: #b35000;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .order-container {
+        padding: 2rem 1rem;
+      }
+
+      .order-header h1 {
+        font-size: 1.75rem;
+      }
+
+      .order-card {
+        padding: 1.5rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .package-options {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Munshid</a>
+    <div class="nav-toggle" onclick="this.classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Order Form -->
+  <div class="order-container">
+    <div class="order-header">
+      <h1>Place Your Order</h1>
+      <p>Fill in your details to get started with Instagram growth</p>
+    </div>
+
+    <div class="order-card" id="orderForm">
+      <form id="customerForm">
+        <!-- Personal Information -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <span>1</span>
+            Personal Information
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span>*</span></label>
+              <input type="text" class="form-input" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address <span>*</span></label>
+              <input type="email" class="form-input" placeholder="your.email@example.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number <span>*</span></label>
+              <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+            </div>
+            <div class="form-group">
+              <label>WhatsApp Number</label>
+              <input type="tel" class="form-input" placeholder="+91 98765 43210">
+            </div>
+          </div>
+        </div>
+
+        <!-- Instagram Details -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <span>2</span>
+            Instagram Details
+          </h3>
+
+          <div class="note-box">
+            <span>🔒</span>
+            <p>We only need your username. <strong>No password required!</strong> Your account security is our priority.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Instagram Username <span>*</span></label>
+            <div class="instagram-input-wrapper">
+              <span class="instagram-prefix">@</span>
+              <input type="text" placeholder="your_username" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Account Type <span>*</span></label>
+            <select class="form-input" required>
+              <option value="">Select account type</option>
+              <option value="personal">Personal Account</option>
+              <option value="business">Business Account</option>
+              <option value="creator">Creator Account</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Is your account public?</label>
+            <select class="form-input" required>
+              <option value="">Please select</option>
+              <option value="yes">Yes, my account is public</option>
+              <option value="no">No, my account is private</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Package Selection -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <span>3</span>
+            Select Package
+          </h3>
+
+          <div class="package-options">
+            <label class="package-option">
+              <input type="radio" name="package" value="100" required>
+              <div class="package-name">100 Followers</div>
+              <div class="package-price">₹830</div>
+              <div class="package-delivery">Delivery: 3-5 days</div>
+            </label>
+
+            <label class="package-option">
+              <input type="radio" name="package" value="250">
+              <div class="package-name">250 Followers</div>
+              <div class="package-price">₹1,660</div>
+              <div class="package-delivery">Delivery: 5-7 days</div>
+            </label>
+
+            <label class="package-option">
+              <input type="radio" name="package" value="500">
+              <div class="package-name">500 Followers</div>
+              <div class="package-price">₹2,900</div>
+              <div class="package-delivery">Delivery: 7-10 days</div>
+            </label>
+
+            <label class="package-option">
+              <input type="radio" name="package" value="1000">
+              <div class="package-name">1,000 Followers</div>
+              <div class="package-price">₹4,980</div>
+              <div class="package-delivery">Delivery: 10-15 days</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Additional Notes -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <span>4</span>
+            Additional Information
+          </h3>
+
+          <div class="form-group">
+            <label>Any special requests or notes?</label>
+            <textarea class="form-input" placeholder="Tell us about your account niche, target audience, or any specific requirements..."></textarea>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-section">
+          <button type="submit" class="btn-submit">
+            Submit Order
+            <span>→</span>
+          </button>
+          <div class="security-note">
+            <span>🔒</span>
+            Your information is secure and will never be shared
+          </div>
+          <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="terms.html" style="color: #667eea; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 0.5rem;">
+              📜 Read Terms & Conditions
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success Message -->
+    <div class="order-card success-message" id="successMessage">
+      <div class="success-icon">✓</div>
+      <h2>Order Submitted!</h2>
+      <p>Thank you for your order! We have received your request and will contact you shortly on WhatsApp or Email to confirm the details and proceed with payment.</p>
+      <p style="margin-top: 1rem; color: #667eea; font-weight: 600;">Order ID: #MUN<span id="orderId"></span></p>
+      <a href="index.html" class="btn-submit" style="margin-top: 2rem; max-width: 300px; margin-left: auto; margin-right: auto;">
+        Back to Home
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Package selection highlight
+    const packageOptions = document.querySelectorAll('.package-option');
+    packageOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        packageOptions.forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+
+    // Form submission
+    document.getElementById('customerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Generate random order ID
+      const orderId = Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('orderId').textContent = orderId;
+      
+      // Show success message
+      document.getElementById('orderForm').style.display = 'none';
+      document.getElementById('successMessage').style.display = 'block';
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

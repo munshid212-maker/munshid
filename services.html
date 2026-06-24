@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services | Munshid</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    .nav {
+      background: rgba(26, 26, 46, 0.95);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #667eea;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #667eea;
+      border-radius: 2px;
+    }
+
+    /* PIN Lock Screen */
+    .pin-lock {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .pin-lock.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .pin-lock-content {
+      text-align: center;
+      max-width: 400px;
+      padding: 2rem;
+    }
+
+    .pin-lock-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      font-size: 2rem;
+      animation: pulse-icon 2s infinite;
+    }
+
+    @keyframes pulse-icon {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .pin-lock h2 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pin-lock p {
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2rem;
+    }
+
+    .pin-input-container {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .pin-dot {
+      width: 16px;
+      height: 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+
+    .pin-dot.filled {
+      background: #667eea;
+      transform: scale(1.2);
+    }
+
+    .pin-error {
+      color: #ff6b6b;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      min-height: 1.5rem;
+    }
+
+    .pin-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      max-width: 250px;
+      margin: 0 auto;
+    }
+
+    .pin-key {
+      width: 70px;
+      height: 70px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pin-key:hover {
+      background: rgba(102, 126, 234, 0.3);
+      border-color: #667eea;
+    }
+
+    .pin-key:active {
+      transform: scale(0.95);
+    }
+
+    .pin-key.delete {
+      font-size: 1.25rem;
+    }
+
+    .pin-attempts {
+      margin-top: 1.5rem;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.875rem;
+    }
+
+    /* Disclaimer Modal */
+    .disclaimer-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 1rem;
+    }
+
+    .disclaimer-modal.hidden {
+      display: none;
+    }
+
+    .disclaimer-box {
+      background: white;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      padding: 2rem;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .disclaimer-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .disclaimer-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .disclaimer-header h3 {
+      color: #1a1a2e;
+      font-size: 1.25rem;
+    }
+
+    .disclaimer-content {
+      background: #fff5f5;
+      border: 1px solid #ffcccc;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .disclaimer-content h4 {
+      color: #d63031;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .disclaimer-content ul {
+      list-style: none;
+      color: #555;
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .disclaimer-content li {
+      padding: 0.25rem 0;
+    }
+
+    .disclaimer-content li::before {
+      content: '⚠️ ';
+    }
+
+    .disclaimer-warning {
+      background: #fff9e6;
+      border: 1px solid #ffe066;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .disclaimer-warning p {
+      color: #b35000;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .disclaimer-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-disclaimer {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .btn-agree {
+      background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+      color: white;
+    }
+
+    .btn-agree:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 184, 148, 0.4);
+    }
+
+    .btn-disagree {
+      background: transparent;
+      color: #666;
+      border: 2px solid #ddd;
+    }
+
+    .btn-disagree:hover {
+      background: #f5f5f5;
+    }
+
+    .disclaimer-note {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: #999;
+    }
+
+    /* Page Content */
+    .page-content {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .page-content.visible {
+      opacity: 1;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .page-header h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+    }
+
+    .page-header p {
+      font-size: 1.25rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .service-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: #667eea;
+      box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+      cursor: pointer;
+    }
+
+    .service-card .btn-primary {
+      text-align: center;
+      justify-content: center;
+    }
+
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+    }
+
+    .service-card p {
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-features {
+      list-style: none;
+    }
+
+    .service-features li {
+      color: #555;
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .service-features li::before {
+      content: '✓';
+      color: #43e97b;
+      font-weight: bold;
+    }
+
+    .service-price {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price-label {
+      color: #888;
+      font-size: 0.875rem;
+    }
+
+    .price-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    /* Process Section */
+    .process-section {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 5rem 2rem;
+      border-radius: 30px;
+      margin-bottom: 4rem;
+    }
+
+    .process-section h2 {
+      color: white;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .process-step {
+      text-align: center;
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin: 0 auto 1.5rem;
+    }
+
+    .process-step h4 {
+      color: white;
+      font-size: 1.125rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .process-step p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    /* CTA */
+    .cta-box {
+      background: white;
+      border-radius: 24px;
+      padding: 3rem;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .cta-box h2 {
+      font-size: 2rem;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+    }
+
+    .cta-box p {
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Mobile Nav */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .nav-toggle span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 968px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pin-key {
+        width: 60px;
+        height: 60px;
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Disclaimer Modal -->
+  <div class="disclaimer-modal" id="disclaimerModal">
+    <div class="disclaimer-box">
+      <div class="disclaimer-header">
+        <div class="disclaimer-icon">⚠️</div>
+        <h3>Important Notice</h3>
+      </div>
+      <div class="disclaimer-content">
+        <h4>⚡ Self-Warning Disclaimer</h4>
+        <ul>
+          <li>Prices shown are starting estimates only. Final cost may vary based on project complexity.</li>
+          <li>Project timelines depend on clear requirements and timely feedback from your side.</li>
+          <li>Revisions beyond agreed scope may incur additional charges.</li>
+          <li>Once project development begins, advance payments are non-refundable.</li>
+          <li>All code/designs are for the client's use after full payment is received.</li>
+        </ul>
+      </div>
+      <div class="disclaimer-warning">
+        <p>🔒 Your information is secure. We never share client data with third parties.</p>
+      </div>
+      <div class="disclaimer-buttons">
+        <button class="btn-disclaimer btn-disagree" onclick="handleDisclaimer(false)">I Disagree</button>
+        <button class="btn-disclaimer btn-agree" onclick="handleDisclaimer(true)">I Agree</button>
+      </div>
+      <p class="disclaimer-note">By clicking "I Agree", you acknowledge that you have read and understood the above terms.</p>
+    </div>
+  </div>
+
+  <!-- PIN Lock Screen -->
+  <div class="pin-lock" id="pinLock">
+    <div class="pin-lock-content">
+      <div class="pin-lock-icon">🔒</div>
+      <h2>Protected Content</h2>
+      <p>Enter PIN to access services</p>
+      <div class="pin-input-container" id="pinDisplay">
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+      </div>
+      <div class="pin-error" id="pinError"></div>
+      <div class="pin-keypad">
+        <button class="pin-key" onclick="enterPin('1')">1</button>
+        <button class="pin-key" onclick="enterPin('2')">2</button>
+        <button class="pin-key" onclick="enterPin('3')">3</button>
+        <button class="pin-key" onclick="enterPin('4')">4</button>
+        <button class="pin-key" onclick="enterPin('5')">5</button>
+        <button class="pin-key" onclick="enterPin('6')">6</button>
+        <button class="pin-key" onclick="enterPin('7')">7</button>
+        <button class="pin-key" onclick="enterPin('8')">8</button>
+        <button class="pin-key" onclick="enterPin('9')">9</button>
+        <button class="pin-key" onclick="clearPin()">C</button>
+        <button class="pin-key" onclick="enterPin('0')">0</button>
+        <button class="pin-key delete" onclick="deletePin()">⌫</button>
+      </div>
+      <div class="pin-attempts" id="pinAttempts"></div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Munshid</a>
+    <div class="nav-toggle" onclick="this.classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="page-content" id="pageContent">
+    <div class="page-header">
+      <h1>My Services</h1>
+      <p>Professional Instagram growth services to boost your social media presence</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card" onclick="window.location.href='terms.html'">
+        <div class="service-icon">📸</div>
+        <h3>Instagram Growth</h3>
+        <p>Boost your social media presence with real, engaged Instagram followers to grow your brand organically.</p>
+        <ul class="service-features">
+          <li>Real Followers</li>
+          <li>Engagement Boost</li>
+          <li>Quick Delivery</li>
+          <li>Safe & Secure</li>
+        </ul>
+        <div class="service-price">
+          <span class="price-label">Starting from</span>
+          <span class="price-value">₹830</span>
+        </div>
+        <a href="terms.html" class="btn-primary" style="margin-top: 1.5rem; display: inline-flex;">
+          View Terms & Conditions
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="process-section">
+      <h2>How I Work</h2>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h4>Discovery</h4>
+          <p>We discuss your goals, requirements, and vision for the project</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h4>Design</h4>
+          <p>I create mockups and prototypes for your approval</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h4>Develop</h4>
+          <p>Building your project with clean, efficient code</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h4>Launch</h4>
+          <p>Final testing and deployment of your website</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2>Ready to Start Your Project?</h2>
+      <p>Let's discuss your requirements and bring your ideas to life</p>
+      <a href="contact.html" class="btn-primary">
+        Get in Touch
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // PIN Configuration - CHANGE THIS TO YOUR DESIRED PIN
+    const CORRECT_PIN = '5757';
+    let currentPin = '';
+    let attempts = 0;
+    const maxAttempts = 5;
+
+    function enterPin(num) {
+      if (currentPin.length < 4) {
+        currentPin += num;
+        updatePinDisplay();
+        
+        if (currentPin.length === 4) {
+          setTimeout(checkPin, 200);
+        }
+      }
+    }
+
+    function deletePin() {
+      currentPin = currentPin.slice(0, -1);
+      updatePinDisplay();
+    }
+
+    function clearPin() {
+      currentPin = '';
+      updatePinDisplay();
+      document.getElementById('pinError').textContent = '';
+    }
+
+    function updatePinDisplay() {
+      const dots = document.querySelectorAll('.pin-dot');
+      dots.forEach((dot, index) => {
+        if (index < currentPin.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      });
+    }
+
+    function checkPin() {
+      if (currentPin === CORRECT_PIN) {
+        document.getElementById('pinLock').classList.add('hidden');
+        document.getElementById('pageContent').classList.add('visible');
+        // Save to session storage so user doesn't have to re-enter
+        sessionStorage.setItem('servicesUnlocked', 'true');
+      } else {
+        attempts++;
+        document.getElementById('pinError').textContent = 'Incorrect PIN. Try again.';
+        currentPin = '';
+        updatePinDisplay();
+        
+        if (attempts >= maxAttempts) {
+          document.getElementById('pinError').textContent = 'Too many attempts. Please wait.';
+          document.querySelectorAll('.pin-key').forEach(key => key.disabled = true);
+          setTimeout(() => {
+            attempts = 0;
+            document.querySelectorAll('.pin-key').forEach(key => key.disabled = false);
+            document.getElementById('pinError').textContent = '';
+          }, 30000);
+        }
+      }
+    }
+
+    // Disclaimer handler
+    function handleDisclaimer(agreed) {
+      if (agreed) {
+        document.getElementById('disclaimerModal').classList.add('hidden');
+        sessionStorage.setItem('disclaimerAccepted', 'true');
+      } else {
+        // Redirect to home page if they disagree
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Check session storage on load
+    window.onload = function() {
+      const disclaimerAccepted = sessionStorage.getItem('disclaimerAccepted');
+      const servicesUnlocked = sessionStorage.getItem('servicesUnlocked');
+
+      if (disclaimerAccepted === 'true' && servicesUnlocked === 'true') {
+        // Both accepted and unlocked
+        document.getElementById('disclaimerModal').classList.add('hidden');
+        document.getElementById('pinLock').classList.add('hidden');
+        document.getElementById('pageContent').classList.add('visible');
+      } else if (disclaimerAccepted === 'true') {
+        // Disclaimer accepted but need PIN
+        document.getElementById('disclaimerModal').classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

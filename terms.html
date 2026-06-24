@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms & Conditions | Munshid</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    .nav {
+      background: rgba(26, 26, 46, 0.95);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #667eea;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .nav-toggle span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    /* Page Content */
+    .terms-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .terms-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid #eee;
+    }
+
+    .terms-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin: 0 auto 1.5rem;
+    }
+
+    .terms-header h1 {
+      font-size: 2.5rem;
+      color: #1a1a2e;
+      margin-bottom: 0.5rem;
+    }
+
+    .terms-header p {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .terms-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .terms-section {
+      margin-bottom: 2rem;
+    }
+
+    .terms-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .terms-section h2 {
+      font-size: 1.25rem;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .terms-section h2 .number {
+      width: 35px;
+      height: 35px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .terms-section p {
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .terms-section ul {
+      list-style: none;
+      margin-left: 1rem;
+    }
+
+    .terms-section li {
+      color: #555;
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .terms-section li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #667eea;
+    }
+
+    .terms-warning {
+      background: #fff5f5;
+      border: 1px solid #ffcccc;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .terms-warning h3 {
+      color: #d63031;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .terms-warning p {
+      color: #b71c1c;
+      font-size: 0.9rem;
+    }
+
+    .terms-info {
+      background: #f0f4ff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .terms-info h3 {
+      color: #667eea;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .terms-info p {
+      color: #444;
+      font-size: 0.9rem;
+    }
+
+    .terms-footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #eee;
+    }
+
+    .terms-footer p {
+      color: #888;
+      font-size: 0.875rem;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .terms-container {
+        padding: 2rem 1rem;
+      }
+
+      .terms-card {
+        padding: 1.5rem;
+      }
+
+      .terms-header h1 {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Munshid</a>
+    <div class="nav-toggle" onclick="this.classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Terms Content -->
+  <div class="terms-container">
+    <div class="terms-header">
+      <div class="terms-icon">📜</div>
+      <h1>Terms & Conditions</h1>
+      <p>Instagram Growth Service</p>
+    </div>
+
+    <div class="terms-card">
+      <div class="terms-section">
+        <h2><span class="number">1</span> Service Description</h2>
+        <p>Our Instagram growth service provides real, engaged followers to boost your social media presence. We use legitimate marketing techniques to attract genuine users who have interest in your content niche.</p>
+      </div>
+
+      <div class="terms-section">
+        <h2><span class="number">2</span> How It Works</h2>
+        <ul>
+          <li>Share your Instagram username (no password required)</li>
+          <li>Select your desired follower package</li>
+          <li>Payment is processed securely</li>
+          <li>Delivery begins within 24-48 hours</li>
+          <li>Full delivery within 3-7 days depending on package size</li>
+        </ul>
+      </div>
+
+      <div class="terms-section">
+        <h2><span class="number">3</span> Pricing & Packages</h2>
+        <ul>
+          <li><strong>100 Followers:</strong> ₹830</li>
+          <li><strong>250 Followers:</strong> ₹1,660</li>
+          <li><strong>500 Followers:</strong> ₹2,900</li>
+          <li><strong>1,000 Followers:</strong> ₹4,980</li>
+          <li><strong>Custom Package:</strong> Contact for quote</li>
+        </ul>
+      </div>
+
+      <div class="terms-warning">
+        <h3>⚠️ Important Notice</h3>
+        <p>Instagram's algorithms may occasionally flag accounts with rapid follower increases. While we cannot guarantee 100% protection from such measures, our gradual delivery system minimizes this risk. We recommend not exceeding 2-3 growth campaigns per month for optimal results.</p>
+      </div>
+
+      <div class="terms-section">
+        <h2><span class="number">4</span> Refund Policy</h2>
+        <p>Due to the digital nature of our service:</p>
+        <ul>
+          <li>No refunds once delivery has begun</li>
+          <li>Partial refunds available if delivery fails to start within 7 days</li>
+          <li>Full refund if service cannot be delivered due to technical issues</li>
+        </ul>
+      </div>
+
+      <div class="terms-info">
+        <h3>🔒 Privacy & Security</h3>
+        <p>We never ask for your Instagram password. We only require your username to begin the growth campaign. All payment information is processed through secure third-party payment gateways.</p>
+      </div>
+
+      <div class="terms-section">
+        <h2><span class="number">5</span> Delivery Timeline</h2>
+        <ul>
+          <li>Small packages (under 500): 3-5 days</li>
+          <li>Medium packages (500-1000): 5-10 days</li>
+          <li>Large packages (1000+): 10-20 days</li>
+          <li>Followers may arrive in batches for safety</li>
+        </ul>
+      </div>
+
+      <div class="terms-section">
+        <h2><span class="number">6</span> Customer Responsibilities</h2>
+        <ul>
+          <li>Ensure your Instagram account is set to PUBLIC</li>
+          <li>Maintain active content to retain new followers</li>
+          <li>Do not purchase from multiple providers simultaneously</li>
+          <li>Report any issues within 30 days of purchase</li>
+        </ul>
+      </div>
+
+      <div class="terms-footer">
+        <p>By purchasing our service, you agree to these terms and conditions.</p>
+        <p style="margin-top: 0.5rem;">Last updated: June 2026</p>
+        <a href="services.html" class="btn-back">← Back to Services</a>
+      </div>
+
+      <!-- Special Offer CTA -->
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 3rem; text-align: center; margin-top: 2rem;">
+        <h2 style="color: white; font-size: 1.75rem; margin-bottom: 0.75rem;">🔥 You Like This Offer?</h2>
+        <p style="color: rgba(255,255,255,0.9); font-size: 1.125rem; margin-bottom: 1.5rem;">Don't miss out! Get started with your Instagram growth today.</p>
+        <a href="order.html" style="display: inline-block; padding: 1rem 2.5rem; background: white; color: #667eea; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.125rem; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+          Click Here to Start →
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

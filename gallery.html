@@ -340,15 +340,89 @@
     @media (max-width: 768px) {
       .gallery-hero {
         min-height: 50vh;
+        padding: 1.5rem;
       }
 
-      .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1rem;
+      .gallery-hero h1 {
+        font-size: 2rem;
+      }
+
+      .gallery-hero p {
+        font-size: 1rem;
       }
 
       .gallery-filter {
-        margin: 2rem 1rem 1rem;
+        margin: 1.5rem 1rem 1rem;
+        gap: 0.5rem;
+      }
+
+      .filter-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        border-radius: 50px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+        padding-bottom: 2rem;
+      }
+
+      .gallery-item img,
+      .gallery-placeholder {
+        height: 200px;
+      }
+
+      .gallery-overlay {
+        padding: 1.5rem 1rem 1rem;
+      }
+
+      .gallery-overlay h4 {
+        font-size: 1rem;
+      }
+
+      .gallery-overlay p {
+        font-size: 0.8rem;
+      }
+
+      .gallery-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+        top: 0.75rem;
+        right: 0.75rem;
+      }
+
+      .lightbox-close {
+        top: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+      }
+
+      .lightbox-content {
+        max-width: 95%;
+        max-height: 85%;
+      }
+
+      .footer {
+        padding: 1.5rem 1rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .gallery-hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item img,
+      .gallery-placeholder {
+        height: 180px;
       }
     }
 
@@ -558,6 +632,7 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
       <li><a href="gallery.html" class="active">Gallery</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="login.html" class="btn btn-primary" style="padding: 0.5rem 1.25rem; border-radius: 8px;">Login</a></li>
